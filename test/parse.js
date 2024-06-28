@@ -210,6 +210,94 @@ t.test('parse(text)', t => {
         t.end()
     })
 
+    t.test('bigints', t => {
+        t.strictSame(
+            JSON5.parse('[0n]'),
+            [0n],
+            'parses leading zeroes'
+        )
+
+        t.throws(
+            () => { JSON5.parse('[0.n]') },
+            {
+                message: /^JSON5: invalid bigint/,
+            },
+            'throws with leading zeroes and fractions'
+        )
+
+        t.throws(
+            () => { JSON5.parse('[0e0n]') },
+            {
+                message: /^JSON5: invalid bigint/,
+            },
+            'throws with leading zeroes and exponents'
+        )
+
+        t.throws(
+            () => { JSON5.parse('[-.1n]') },
+            {
+                message: /^JSON5: invalid bigint/,
+            },
+            'throws with leading zeroes and fractions'
+        )
+
+        t.strictSame(
+            JSON5.parse('[1n,23n,456n,7890n]'),
+            [1n, 23n, 456n, 7890n],
+            'parses integers'
+        )
+
+        t.strictSame(
+            JSON5.parse('[-1n,+2n,-0n]'),
+            [-1n, 2n, 0n],
+            'parses signed numbers'
+        )
+
+        '1e0n,1e1n,1e01n,1.e0n,1.1e0n,1e-1n,1e+1n'.split(',').forEach(text => {
+            t.throws(
+                () => { JSON5.parse(text) },
+                {
+                    message: /^JSON5: invalid bigint/,
+                },
+                'throws with leading zeroes and fractions'
+            )
+        })
+
+        t.strictSame(
+            JSON5.parse('[0x1n,0x10n,0xffn,0xFFn]'),
+            [1n, 16n, 255n, 255n],
+            'parses hexadecimal numbers'
+        )
+
+        t.strictSame(
+            JSON5.parse('1n'),
+            1n,
+            'parses 1n'
+        )
+
+        t.throws(
+            () => { JSON5.parse('+1.23e100n') },
+            {
+                message: /^JSON5: invalid bigint/,
+            },
+            'throws with +1.23e100n'
+        )
+
+        t.strictSame(
+            JSON5.parse('0x1n'),
+            0x1n,
+            'parses bare hexadecimal number'
+        )
+
+        t.strictSame(
+            JSON5.parse('-0x0123456789abcdefABCDEFn'),
+            -0x0123456789abcdefABCDEFn,
+            'parses bare long hexadecimal number'
+        )
+
+        t.end()
+    })
+
     t.test('strings', t => {
         t.equal(
             JSON5.parse('"abc"'),

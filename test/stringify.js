@@ -180,6 +180,36 @@ t.test('JSON5', t => {
             t.end()
         })
 
+        t.test('bigints', t => {
+            t.strictSame(
+                // eslint-disable-next-line
+                JSON5.stringify( -1n ),
+                '-1n',
+                'stringifies bigints'
+            )
+
+            t.strictSame(
+                JSON5.stringify([-1n]),
+                '[-1n]',
+                'stringifies bigints in array'
+            )
+
+            t.strictSame(
+                JSON5.stringify({'bigint': -1n}),
+                '{bigint:-1n}',
+                'stringifies bigints in objects'
+            )
+
+            t.strictSame(
+                // eslint-disable-next-line no-new-wrappers
+                JSON5.stringify(BigInt(-1n)),
+                '-1n',
+                'stringifies BigInt objects'
+            )
+
+            t.end()
+        })
+
         t.test('strings', t => {
             t.strictSame(
                 JSON5.stringify('abc'),

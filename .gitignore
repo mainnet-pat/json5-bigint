@@ -41,3 +41,5 @@ dist/
 
 test/output.json
 test/test.json
+
+.tap

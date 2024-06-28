@@ -14,7 +14,7 @@
             "as-needed"
         ],
         "comma-dangle": [
-            "error",
+            0,
             "always-multiline"
         ],
         "indent": [
@@ -26,5 +26,11 @@
             "error",
             "never"
         ]
+    },
+    "globals": {
+        "BigInt": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 2020
     }
 }
