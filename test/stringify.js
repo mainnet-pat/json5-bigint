@@ -508,5 +508,33 @@ t.test('JSON5', t => {
         t.end()
     })
 
+    t.test('#stringify(value, {keyQuote})', t => {
+        t.strictSame(
+            JSON5.stringify({a: 1}, {keyQuote: undefined}),
+            '{a:1}',
+            'uses no quotes if not provided'
+        )
+
+        t.strictSame(
+            JSON5.stringify({a: 1}, {keyQuote: ''}),
+            '{a:1}',
+            'accepts empty string'
+        )
+
+        t.strictSame(
+            JSON5.stringify({a: 1}, {keyQuote: '"'}),
+            '{"a":1}',
+            'uses double quotes if provided'
+        )
+
+        t.strictSame(
+            JSON5.stringify({a: 1}, {keyQuote: '\''}),
+            "{'a':1}",
+            'uses single quotes if provided'
+        )
+
+        t.end()
+    })
+
     t.end()
 })
