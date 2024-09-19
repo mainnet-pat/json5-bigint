@@ -132,7 +132,7 @@ t.test('CLI', t => {
             t.end()
         })
 
-        t.tearDown(() => {
+        t.teardown(() => {
             try {
                 fs.unlinkSync(path.resolve(__dirname, 'output.json'))
             } catch (err) {}
@@ -161,7 +161,7 @@ t.test('CLI', t => {
             t.end()
         })
 
-        t.tearDown(() => {
+        t.teardown(() => {
             try {
                 fs.unlinkSync(path.resolve(__dirname, 'output.json'))
             } catch (err) {}
@@ -302,7 +302,7 @@ t.test('CLI', t => {
             t.end()
         })
 
-        t.tearDown(() => {
+        t.teardown(() => {
             try {
                 fs.unlinkSync(path.resolve(__dirname, 'test.json'))
             } catch (err) {}
@@ -330,7 +330,7 @@ t.test('CLI', t => {
             t.end()
         })
 
-        t.tearDown(() => {
+        t.teardown(() => {
             try {
                 fs.unlinkSync(path.resolve(__dirname, 'test.json'))
             } catch (err) {}
