@@ -1,7 +1,7 @@
 // This is a generated file. Do not edit.
 {
   name: '@mainnet-pat/json5-bigint',
-  version: '2.2.5',
+  version: '2.2.6',
   description: 'JSON for Humans',
   main: 'dist/index.js',
   module: 'dist/index.mjs',
@@ -67,7 +67,7 @@
     'rollup-plugin-node-resolve': '^3.4.0',
     'rollup-plugin-terser': '^7.0.2',
     sinon: '^6.3.5',
-    tap: '^12.7.0',
+    tap: '^21.0.1',
     'unicode-10.0.0': '^0.7.5',
   },
 }

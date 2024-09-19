@@ -179,6 +179,7 @@ properties if a replacer array is specified.
   - `space`: Same as the `space` parameter.
   - `quote`: A String representing the quote character to use when serializing
     strings.
+  - `keyQoute`: A character to use to quote the serialized object keys, e.g. `"`
 
 #### Return value
 A JSON5 string representing the value.
