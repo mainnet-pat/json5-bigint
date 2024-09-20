@@ -536,5 +536,33 @@ t.test('JSON5', t => {
         t.end()
     })
 
+    t.test('#stringify(value, {Uint8ArrayHex})', t => {
+        t.strictSame(
+            JSON5.stringify(new Uint8Array([]), {Uint8ArrayHex: true}),
+            '0x',
+            'stringifies empty Uint8Array as hex'
+        )
+
+        t.strictSame(
+            JSON5.stringify(new Uint8Array([1, 2, 3]), {Uint8ArrayHex: true}),
+            '0x010203',
+            'stringifies Uint8Array as hex'
+        )
+
+        t.strictSame(
+            JSON5.stringify([new Uint8Array([1, 2, 3])], {Uint8ArrayHex: true}),
+            '[0x010203]',
+            'stringifies array of Uint8Array as hex'
+        )
+
+        t.strictSame(
+            JSON5.stringify({a: new Uint8Array([1, 2, 3])}, {Uint8ArrayHex: true}),
+            '{a:0x010203}',
+            'stringifies object property of Uint8Array as hex'
+        )
+
+        t.end()
+    })
+
     t.end()
 })

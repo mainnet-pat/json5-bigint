@@ -1,6 +1,6 @@
 {
   "name": "@mainnet-pat/json5-bigint",
-  "version": "2.2.6",
+  "version": "2.2.7",
   "description": "JSON for Humans",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -24,7 +24,7 @@
     "prepublishOnly": "npm run production",
     "preversion": "npm run production",
     "production": "run-s test build",
-    "tap": "tap -Rspec test",
+    "tap": "tap test",
     "test": "run-s lint-report tap",
     "version": "npm run build-package && git add package.json5"
   },

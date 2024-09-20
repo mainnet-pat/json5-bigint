@@ -63,6 +63,9 @@ been extended to JSON5.
 - Numbers may be [IEEE 754] positive infinity, negative infinity, and NaN.
 - Numbers may begin with an explicit plus sign.
 
+### Uint8Arrays
+- Uint8Arrays can only be hexadecimals of even length and with no sign, `Uint8ArrayHex` must be passed to options.
+
 ### Comments
 - Single and multi-line comments are allowed.
 
@@ -141,11 +144,16 @@ transformation on the resulting object before it is returned.
 
 #### Syntax
     JSON5.parse(text[, reviver])
+    JSON5.parse(text[, options])
+  
 
 #### Parameters
 - `text`: The string to parse as JSON5.
 - `reviver`: If a function, this prescribes how the value originally produced by
   parsing is transformed, before being returned.
+- `options`: An object with the following properties:
+  - `reviver`: Same as the `reviver` parameter.
+  - `Uint8ArrayHex`: Boolean flag to support outputting Uint8Arrays as hex literals.
 
 #### Return value
 The object corresponding to the given JSON5 text.
@@ -180,6 +188,7 @@ properties if a replacer array is specified.
   - `quote`: A String representing the quote character to use when serializing
     strings.
   - `keyQoute`: A character to use to quote the serialized object keys, e.g. `"`
+  - `Uint8ArrayHex`: Boolean flag to enable parsing hex literals as Uint8Arrays.
 
 #### Return value
 A JSON5 string representing the value.

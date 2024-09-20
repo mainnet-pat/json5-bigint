@@ -429,3 +429,49 @@ t.test('parse(text, reviver)', t => {
 
     t.end()
 })
+
+t.test('Uint8Arrays', t => {
+    t.strictSame(
+        JSON5.parse('0x01beef', {Uint8ArrayHex: true}),
+        new Uint8Array([1, 190, 239]),
+        'parses hex literals to Uint8Arrays'
+    )
+
+    t.strictSame(
+        JSON5.parse('[0x01beef]', {Uint8ArrayHex: true}),
+        [new Uint8Array([1, 190, 239])],
+        'parses hex literals to Uint8Arrays in arrays'
+    )
+
+    t.strictSame(
+        JSON5.parse('{"a": 0x01beef}', {Uint8ArrayHex: true}),
+        {a: new Uint8Array([1, 190, 239])},
+        'parses hex literals to Uint8Arrays in object values'
+    )
+
+    t.throws(
+        () => { JSON5.parse('[0x1]', {Uint8ArrayHex: true}) },
+        {
+            message: /hex length is not even/,
+        },
+        'throws with not even hex length'
+    )
+
+    t.throws(
+        () => { JSON5.parse('[+0x01]', {Uint8ArrayHex: true}) },
+        {
+            message: /sign is not allowed/,
+        },
+        'throws with plus sign'
+    )
+
+    t.throws(
+        () => { JSON5.parse('[-0x01]', {Uint8ArrayHex: true}) },
+        {
+            message: /sign is not allowed/,
+        },
+        'throws with minus sign'
+    )
+
+    t.end()
+})
