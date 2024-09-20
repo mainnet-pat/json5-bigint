@@ -91,6 +91,8 @@ No \\n's!",
   positiveSign: +1,
   trailingComma: 'in objects', andIn: ['arrays',],
   "backwardsCompatible": "with JSON",
+  uint8Array: 0xbeef, // enabled with `Uint8ArrayHex` option
+  bigint: 0n, // enabled with `bigint` option
 }
 ```
 
@@ -153,7 +155,8 @@ transformation on the resulting object before it is returned.
   parsing is transformed, before being returned.
 - `options`: An object with the following properties:
   - `reviver`: Same as the `reviver` parameter.
-  - `Uint8ArrayHex`: Boolean flag to support outputting Uint8Arrays as hex literals.
+  - `Uint8ArrayHex`: Boolean flag to enable parsing hex literals as Uint8Arrays.
+  - `bigint`: Boolean flag to enable parsing bigint literals.
 
 #### Return value
 The object corresponding to the given JSON5 text.
@@ -188,7 +191,8 @@ properties if a replacer array is specified.
   - `quote`: A String representing the quote character to use when serializing
     strings.
   - `keyQoute`: A character to use to quote the serialized object keys, e.g. `"`
-  - `Uint8ArrayHex`: Boolean flag to enable parsing hex literals as Uint8Arrays.
+  - `Uint8ArrayHex`: Boolean flag to enable outputting Uint8Arrays as hex literals.
+  - `bigint`: Boolean flag to enable outputting bigint literals.
 
 #### Return value
 A JSON5 string representing the value.

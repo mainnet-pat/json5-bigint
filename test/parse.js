@@ -211,14 +211,22 @@ t.test('parse(text)', t => {
     })
 
     t.test('bigints', t => {
+        t.throws(
+            () => { JSON5.parse('0n') },
+            {
+                message: /^JSON5: bigint literals not supported/,
+            },
+            'throws if bigints not supported'
+        )
+
         t.strictSame(
-            JSON5.parse('[0n]'),
+            JSON5.parse('[0n]', {bigint: true}),
             [0n],
             'parses leading zeroes'
         )
 
         t.throws(
-            () => { JSON5.parse('[0.n]') },
+            () => { JSON5.parse('[0.n]', {bigint: true}) },
             {
                 message: /^JSON5: invalid bigint/,
             },
@@ -226,7 +234,7 @@ t.test('parse(text)', t => {
         )
 
         t.throws(
-            () => { JSON5.parse('[0e0n]') },
+            () => { JSON5.parse('[0e0n]', {bigint: true}) },
             {
                 message: /^JSON5: invalid bigint/,
             },
@@ -234,7 +242,7 @@ t.test('parse(text)', t => {
         )
 
         t.throws(
-            () => { JSON5.parse('[-.1n]') },
+            () => { JSON5.parse('[-.1n]', {bigint: true}) },
             {
                 message: /^JSON5: invalid bigint/,
             },
@@ -242,20 +250,20 @@ t.test('parse(text)', t => {
         )
 
         t.strictSame(
-            JSON5.parse('[1n,23n,456n,7890n]'),
+            JSON5.parse('[1n,23n,456n,7890n]', {bigint: true}),
             [1n, 23n, 456n, 7890n],
             'parses integers'
         )
 
         t.strictSame(
-            JSON5.parse('[-1n,+2n,-0n]'),
+            JSON5.parse('[-1n,+2n,-0n]', {bigint: true}),
             [-1n, 2n, 0n],
             'parses signed numbers'
         )
 
         '1e0n,1e1n,1e01n,1.e0n,1.1e0n,1e-1n,1e+1n'.split(',').forEach(text => {
             t.throws(
-                () => { JSON5.parse(text) },
+                () => { JSON5.parse(text, {bigint: true}) },
                 {
                     message: /^JSON5: invalid bigint/,
                 },
@@ -264,19 +272,19 @@ t.test('parse(text)', t => {
         })
 
         t.strictSame(
-            JSON5.parse('[0x1n,0x10n,0xffn,0xFFn]'),
+            JSON5.parse('[0x1n,0x10n,0xffn,0xFFn]', {bigint: true}),
             [1n, 16n, 255n, 255n],
             'parses hexadecimal numbers'
         )
 
         t.strictSame(
-            JSON5.parse('1n'),
+            JSON5.parse('1n', {bigint: true}),
             1n,
             'parses 1n'
         )
 
         t.throws(
-            () => { JSON5.parse('+1.23e100n') },
+            () => { JSON5.parse('+1.23e100n', {bigint: true}) },
             {
                 message: /^JSON5: invalid bigint/,
             },
@@ -284,13 +292,13 @@ t.test('parse(text)', t => {
         )
 
         t.strictSame(
-            JSON5.parse('0x1n'),
+            JSON5.parse('0x1n', {bigint: true}),
             0x1n,
             'parses bare hexadecimal number'
         )
 
         t.strictSame(
-            JSON5.parse('-0x0123456789abcdefABCDEFn'),
+            JSON5.parse('-0x0123456789abcdefABCDEFn', {bigint: true}),
             -0x0123456789abcdefABCDEFn,
             'parses bare long hexadecimal number'
         )

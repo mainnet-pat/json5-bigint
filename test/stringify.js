@@ -181,28 +181,36 @@ t.test('JSON5', t => {
         })
 
         t.test('bigints', t => {
+            t.throws(
+                () => { JSON5.stringify(-1n) },
+                {
+                    message: /^JSON5: bigint literals not supported/,
+                },
+                'throws if bigint support was not enabled'
+            )
+
             t.strictSame(
                 // eslint-disable-next-line
-                JSON5.stringify( -1n ),
+                JSON5.stringify(-1n, { bigint: true }),
                 '-1n',
                 'stringifies bigints'
             )
 
             t.strictSame(
-                JSON5.stringify([-1n]),
+                JSON5.stringify([-1n], {bigint: true}),
                 '[-1n]',
                 'stringifies bigints in array'
             )
 
             t.strictSame(
-                JSON5.stringify({'bigint': -1n}),
+                JSON5.stringify({'bigint': -1n}, {bigint: true}),
                 '{bigint:-1n}',
                 'stringifies bigints in objects'
             )
 
             t.strictSame(
                 // eslint-disable-next-line no-new-wrappers
-                JSON5.stringify(BigInt(-1n)),
+                JSON5.stringify(BigInt(-1n), {bigint: true}),
                 '-1n',
                 'stringifies BigInt objects'
             )
