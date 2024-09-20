@@ -574,3 +574,91 @@ t.test('JSON5', t => {
 
     t.end()
 })
+
+t.test('Test global config', t => {
+    t.strictSame(
+        JSON5.stringify(new Uint8Array([1])),
+        "{'0':1}",
+        'stringifies hex literals to number strings if Uint8Array support is not enabled'
+    )
+
+    globalThis.JSON5Options = {
+        Uint8ArrayHex: true
+    }
+
+    t.strictSame(
+        JSON5.stringify(new Uint8Array([1])),
+        '0x01',
+        'stringifies Uint8Arrays into hex literals'
+    )
+
+    globalThis.JSON5Options = {
+        Uint8ArrayHex: false
+    }
+
+    t.strictSame(
+        JSON5.stringify(new Uint8Array([1])),
+        "{'0':1}",
+        'stringifies hex literals to number strings if Uint8Array support is not enabled'
+    )
+
+    // bigints
+    t.throws(
+        () => { JSON5.stringify(0n) },
+        {
+            message: /^JSON5: bigint literals not supported/,
+        },
+        'throws if bigints not supported'
+    )
+
+    globalThis.JSON5Options = {
+        bigint: true
+    }
+
+    t.strictSame(
+        JSON5.stringify(0n),
+        '0n',
+        'stringifies bigints'
+    )
+
+    globalThis.JSON5Options = {
+        Uint8ArrayHex: false
+    }
+
+    t.throws(
+        () => { JSON5.stringify(0n) },
+        {
+            message: /^JSON5: bigint literals not supported/,
+        },
+        'throws if bigints not supported'
+    )
+
+    // key quotes
+    t.strictSame(
+        JSON5.stringify({'a': 1}),
+        '{a:1}',
+        'stringifies objects with unquoted keys'
+    )
+
+    globalThis.JSON5Options = {
+        keyQuote: '"'
+    }
+
+    t.strictSame(
+        JSON5.stringify({'a': 1}),
+        '{"a":1}',
+        'stringifies objects with quoted keys'
+    )
+
+    globalThis.JSON5Options = {
+        keyQuote: undefined
+    }
+
+    t.strictSame(
+        JSON5.stringify({'a': 1}),
+        '{a:1}',
+        'stringifies objects with unquoted keys'
+    )
+
+    t.end()
+})

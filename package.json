@@ -1,6 +1,6 @@
 {
   "name": "@mainnet-pat/json5-bigint",
-  "version": "2.2.8",
+  "version": "2.2.11",
   "description": "JSON for Humans",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

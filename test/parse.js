@@ -440,6 +440,12 @@ t.test('parse(text, reviver)', t => {
 
 t.test('Uint8Arrays', t => {
     t.strictSame(
+        JSON5.parse('0x01'),
+        1,
+        'parses hex literals to numbers if Uint8Array support is not enabled'
+    )
+
+    t.strictSame(
         JSON5.parse('0x01beef', {Uint8ArrayHex: true}),
         new Uint8Array([1, 190, 239]),
         'parses hex literals to Uint8Arrays'
@@ -479,6 +485,67 @@ t.test('Uint8Arrays', t => {
             message: /sign is not allowed/,
         },
         'throws with minus sign'
+    )
+
+    t.end()
+})
+
+t.test('Test global config', t => {
+    t.strictSame(
+        JSON5.parse('0x01'),
+        1,
+        'parses hex literals to numbers if Uint8Array support is not enabled'
+    )
+
+    globalThis.JSON5Options = {
+        Uint8ArrayHex: true
+    }
+
+    t.strictSame(
+        JSON5.parse('0x01'),
+        new Uint8Array([1]),
+        'parses hex literals to Uint8Arrays'
+    )
+
+    globalThis.JSON5Options = {
+        Uint8ArrayHex: false
+    }
+
+    t.strictSame(
+        JSON5.parse('0x01'),
+        1,
+        'parses hex literals to numbers if Uint8Array support is not enabled'
+    )
+
+    // bigints
+    t.throws(
+        () => { JSON5.parse('0n') },
+        {
+            message: /^JSON5: bigint literals not supported/,
+        },
+        'throws if bigints not supported'
+    )
+
+    globalThis.JSON5Options = {
+        bigint: true
+    }
+
+    t.strictSame(
+        JSON5.parse('0n'),
+        0n,
+        'parses bigints'
+    )
+
+    globalThis.JSON5Options = {
+        Uint8ArrayHex: false
+    }
+
+    t.throws(
+        () => { JSON5.parse('0n') },
+        {
+            message: /^JSON5: bigint literals not supported/,
+        },
+        'throws if bigints not supported'
     )
 
     t.end()

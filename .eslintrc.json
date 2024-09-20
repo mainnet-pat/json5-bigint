@@ -28,7 +28,8 @@
         ]
     },
     "globals": {
-        "BigInt": true
+        "BigInt": true,
+        "globalThis": "readonly"
     },
     "parserOptions": {
         "ecmaVersion": 2020

@@ -63,6 +63,9 @@ been extended to JSON5.
 - Numbers may be [IEEE 754] positive infinity, negative infinity, and NaN.
 - Numbers may begin with an explicit plus sign.
 
+### Bigints
+- Bigints can only be specified in their n-literal form, e.g. `0n`, `0xbeefn`, `-1n`, etc.
+
 ### Uint8Arrays
 - Uint8Arrays can only be hexadecimals of even length and with no sign, `Uint8ArrayHex` must be passed to options.
 
@@ -196,6 +199,22 @@ properties if a replacer array is specified.
 
 #### Return value
 A JSON5 string representing the value.
+
+### Global configuration and presets
+
+Options from `parse` and `stringify` methods can be omitted in favor of global
+configuration:
+```js
+globalThis.JSON5Options = {
+  keyQoute: '"',
+  Uint8ArrayHex: true,
+  bigint: true,
+}
+```
+
+Also a preset configuration corresponding to the snippet above could be activated
+anywhere in the code with `require('json5/lib/presets/extended')` and reset with
+`require('json5/lib/presets/standard')`
 
 ### Node.js `require()` JSON5 files
 When using Node.js, you can `require()` JSON5 files by adding the following
